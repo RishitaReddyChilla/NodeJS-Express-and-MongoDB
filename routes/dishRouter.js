@@ -6,8 +6,8 @@ const dishRouter = express.Router();
 
 dishRouter.use(bodyParser.json());
 //for all the requests - GET,PUT,POST,DELETE
-//1st app.all will be executed and lated due to next() 
-//---- depending on the GET,POST etc. the related app.get() or app.post()  or app.etc. will be executed
+//1st app.all will be executed and later rest will be executed due to next() 
+//---- depending on the GET,POST etc. request the related .get() or .post()  or .etc. will be executed
 dishRouter.route('/')
 .all((req,res,next) => {
     res.statusCode= 200;
@@ -29,28 +29,31 @@ dishRouter.route('/')
   })
 .delete((req, res, next) => {
       res.end('Deleting all dishes');
-  });
+  })
  
 //1st group ends here 
-/*
-app.get('/dishes/:dishId', (req,res,next) => {
+
+dishRouter.route('/:dishId')
+.all((req,res,next) => {
+    res.statusCode= 200;
+    res.setHeader('Content-type','text/plain');
+    next();//it will continue to look for additional specifications that will match the /dishes endpoint
+
+})
+.get( (req,res,next) => {
       res.end('Will send details of the dish: ' + req.params.dishId +' to you!');
-  });
-  
-app.post('/dishes/:dishId', (req, res, next) => {
+  })
+.post( (req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /dishes/'+ req.params.dishId);
-  });
-  
-app.put('/dishes/:dishId', (req, res, next) => {
+  })
+.put( (req, res, next) => {
     res.write('Updating the dish: ' + req.params.dishId + '\n');
     res.end('Will update the dish: ' + req.body.name + 
           ' with details: ' + req.body.description);
-  });
-  
-app.delete('/dishes/:dishId', (req, res, next) => {
+  })
+.delete((req, res, next) => {
       res.end('Deleting dish: ' + req.params.dishId);
   });
-  */
 
   module.exports = dishRouter;

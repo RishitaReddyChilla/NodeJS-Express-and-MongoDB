@@ -4,6 +4,9 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const dishRouter = require('./routes/dishRouter');
+const promoRouter = require('./routes/promoRouter');
+const leaderRouter = require('./routes/leaderRouter');
+
 const hostname = 'localhost';
 const port = 3000;
 
@@ -12,6 +15,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.use('/dishes',dishRouter);// anything coming through /dishes endpoint will be send over to dishRouter
+app.use('/promotions',promoRouter);
+app.use('/leaders',leaderRouter);
 /*
 //for all the requests - GET,PUT,POST,DELETE
 //1st app.all will be executed and lated due to next() 
