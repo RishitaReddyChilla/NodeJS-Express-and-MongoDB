@@ -22,6 +22,7 @@ MongoClient.connect(url,(err,client)=>{
 
         assert.equal(err,null);
         console.log('After Insert:\n');
+        
         console.log(result.ops); //ops - how many operations are carried out succesfully
 
         collection.find({}).toArray((err,docs)=>{
