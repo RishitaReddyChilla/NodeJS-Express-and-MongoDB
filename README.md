@@ -9,8 +9,6 @@ Install [MongoDB](http://www.mongodb.org).
 <br/>
 To Verify node installation type `node -v` at the prompt
 <br/>
-To Verify npm installation type `npm -v` at the prompt
-<br/>
 
 # Run
 To run the node application type `npm start` at the prompt
@@ -37,7 +35,7 @@ Using Express Router in Express framework to support REST API
  Using express generator and modifying the application to support the REST API.
 
 # node-mongo
-Connect to server, insert document (json) , find document, update document and drop collection.
+Connect to server, insert document (json) , find document, update document and drop collection using promises to avoid callback.
 
 1. Create a folder named `mongodb` and a subfolder named `data` at any location.
 2. Navigate to `mongodb` folder on prompt and type<br/> `mongod --dbpath=data --bind_ip 127.0.0.1`<br/> to start the MongoDB server.
