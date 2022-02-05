@@ -41,4 +41,6 @@ Connect to server, insert document (json) , find document, update document and d
 2. Navigate to `mongodb` folder on prompt and type<br/> `mongod --dbpath=data --bind_ip 127.0.0.1`<br/> to start the MongoDB server.
 
    <!--3. On another command prompt window type `mongo`-->
+# node-mongoose
+Creating mongoose schemas and performing Database operations with Mongoose methods.
 
