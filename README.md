@@ -32,7 +32,10 @@ Using Express Router in Express framework to support REST API
    - Send  `GET`, `PUT`, `POST` or `DELETE` requests and check the response by typing<br/>http://localhost:3000/dishes and <br/> http://localhost:3000/dishes/number (localhost:3000/dishes/10)
 
 # conFusion server
- Using express generator and modifying the application to support the REST API.
+ - Using express generator and modifying the application to support the REST API.
+ -  Integrate the REST API server with the backend.
+  1. Create a folder named `mongodb` and a subfolder named `data` at any location.
+  2.  Navigate to `mongodb` folder on prompt and type<br/> `mongod --dbpath=data --bind_ip 127.0.0.1`<br/> to start the MongoDB server.
 
 # node-mongo
 Connect to server, insert document (json) , find document, update document and drop collection using promises to avoid callback.
