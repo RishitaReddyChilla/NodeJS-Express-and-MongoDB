@@ -41,6 +41,8 @@ app.use(session({
   store: new FileStore()
 }));
 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 //All the middleware after this point should undergo authorization
 function auth(req,res,next){
  // console.log(req.signedCookies); //cookies
@@ -48,39 +50,20 @@ function auth(req,res,next){
   //user not authorized yet
  // if(!req.signedCookies.user){ //cookies
  if(!req.session.user){ //express session
-      var authHeader = req.headers.authorization;
-      if(!authHeader)
-      {
-        var err = new Error('You are not authenticated!');
-        res.setHeader('WWW-Authenticate','Basic');
-        err.status = 401;
-        return next(err);
-      }
+      
+    var err = new Error('You are not authenticated!');
+    err.status = 401;
+    return next(err);
+  
     //while authenticating - the first part of every encoded string wil be "Basic" and space " " followed by "username:password"
     //EG: Basic username:password
     //Here we are splitting Basic from the username and password string and extracting second [1] that is concatenated username and password
     //then again splitting the username and password which are separated by ":"
     //so, auth will be an array containing username and password
-    var auth = new Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
-
-    var username = auth[0];
-    var password = auth[1];
-
-    if(username=='admin' && password == 'password'){
-      req.session.user = 'admin';
-     // res.cookie('user','admin',{ signed: true}); //cookies
-      next();//from auth request will pass on to next midlleware 
-    }
-    else{
-      var err = new Error('You are not authenticated!');
-      res.setHeader('WWW-Authenticate','Basic');
-      err.status = 401;
-      next(err);
-    }
   }
   else{
     //if(req.signedCookies.user =='admin') //cookies
-    if(req.session.user =='admin') //express session
+    if(req.session.user == 'authenticated') //express session
     {
       next();
     }
@@ -95,8 +78,7 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
