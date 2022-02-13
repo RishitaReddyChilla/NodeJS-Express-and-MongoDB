@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var passport = require('passport');
+var authenticate = require('./authenticate');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +21,7 @@ const Dishes = require('./models/dishes');
 
 const url = 'mongodb://localhost:27017.conFusion';
 const connect = mongoose.connect(url);
+
 connect.then((db)=>{
   console.log('Connected Correctly to server');
 },(err)=>{console.log(err);});
@@ -41,39 +44,29 @@ app.use(session({
   store: new FileStore()
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //All the middleware after this point should undergo authorization
-function auth(req,res,next){
- // console.log(req.signedCookies); //cookies
- console.log(req.session); //express session
-  //user not authorized yet
- // if(!req.signedCookies.user){ //cookies
- if(!req.session.user){ //express session
-      
-    var err = new Error('You are not authenticated!');
-    err.status = 401;
-    return next(err);
-  
-    //while authenticating - the first part of every encoded string wil be "Basic" and space " " followed by "username:password"
+//while authenticating - the first part of every encoded string wil be "Basic" and space " " followed by "username:password"
     //EG: Basic username:password
     //Here we are splitting Basic from the username and password string and extracting second [1] that is concatenated username and password
     //then again splitting the username and password which are separated by ":"
     //so, auth will be an array containing username and password
+    function auth (req, res, next) {
+      console.log(req.user);
+  
+      if (!req.user) {
+        var err = new Error('You are not authenticated!');
+        err.status = 403;
+        next(err);
+      }
+      else {
+            next();
+      }
   }
-  else{
-    //if(req.signedCookies.user =='admin') //cookies
-    if(req.session.user == 'authenticated') //express session
-    {
-      next();
-    }
-    else{
-      var err = new Error('You are not authenticated!');
-      err.status = 401;
-      next(err);
-    }
-  }
-}
 app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
