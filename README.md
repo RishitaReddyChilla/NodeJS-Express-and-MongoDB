@@ -38,10 +38,15 @@ Using Express Router in Express framework to support REST API
      - Navigate to `mongodb` folder on prompt and type<br/> `mongod --dbpath=data --bind_ip 127.0.0.1`<br/> to start the MongoDB server.
 - Use Postman to send requests and check responses.
    - Send  `GET`, `PUT`, `POST` or `DELETE` requests and check the response.
-   - Perform `POST` on `http://localhost:3000/dishes` by giving the json data from `db.json` in the body.
+   - Perform `POST` on http://localhost:3000/dishes by giving the json data from `db.json` in the body.
    - Send the `GET` request and copy the `dishID`.
-   - Send the  `GET` request on `http://localhost:3000/dishes/dishID` to check the response.
-
+   - Send the  `GET` request on http://localhost:3000/dishes/dishID to check the response.
+ - Authentication - Passport JWT
+     - Use Postman to send `POST` request on http://localhost:3000/users/signup and under the body select the raw json format and include <br/> {<br/>"username":"Anyusername",<br/>"password":"Anypassword"<br/>} <br/> to register
+     - Send `POST` request on http://localhost:3000/users/login and under the body select the raw json format and include <br/> {<br/>"username":"username_used_to_signup",<br/>"password":"password_used_to_signup"<br/>} <br/> to login inorder to send `put`,`post` and `delete` requests.
+     - Copy the `token` displayed in response
+     - To perform any operation (`put`,`post` and `delete`) , under the `headers` add a row with `key` as `Authorization` and `value` as `token` which was copied earlier and include the json data under body while sending `post` and `put` requests.
+  
 # node-mongo
 Connect to server, insert document (json) , find document, update document and drop collection using promises to avoid callback.
 
