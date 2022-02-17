@@ -54,26 +54,7 @@ app.use('/users', usersRouter);
 
 /*//authetication
 //All the middleware after this point should undergo authorization
-//while authenticating - the first part of every encoded string wil be "Basic" and space " " followed by "username:password"
-    //EG: Basic username:password
-    //Here we are splitting Basic from the username and password string and extracting second [1] that is concatenated username and password
-    //then again splitting the username and password which are separated by ":"
-    //so, auth will be an array containing username and password
-    function auth (req, res, next) {
-      console.log(req.user);
-  
-      if (!req.user) {
-        var err = new Error('You are not authenticated!');
-        err.status = 403;
-        next(err);
-      }
-      else {
-            next();
-      }
-  }
-app.use(auth);
 */
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 
