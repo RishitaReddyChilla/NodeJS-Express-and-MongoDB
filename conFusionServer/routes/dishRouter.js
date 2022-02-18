@@ -190,23 +190,30 @@ dishRouter.route('/:dishId/comments/:commentId')
   Dishes.findById(req.params.dishId)
   .then((dish)=>{
    if(dish != null && dish.comments.id(req.params.commentId)!=null) {
-    if(req.body.rating) {
-      dish.comments.id(req.params.commentId).rating = req.body.rating;
+    if((req.user._id).equals(dish.comments.id(req.params.commentId).author)){
+      if(req.body.rating) {
+        dish.comments.id(req.params.commentId).rating = req.body.rating;
+      }
+      if(req.body.comment){
+        dish.comments.id(req.params.commentId).comment = req.body.comment;
+      }
+      dish.save()
+      .then((dish)=> {
+        Dishes.findById(dish._id)
+          .populate('comments.author')
+          .then((dish)=>{
+            res.statusCode=200;
+            res.setHeader('Content-Type','application/json');
+            res.json(dish);
+          })
+      }, (err) => next(err));
     }
-    if(req.body.comment){
-      dish.comments.id(req.params.commentId).comment = req.body.comment;
+    else{
+      var err = new Error('You are not authorized perform this operation');
+      err.status = 403;
+      return next(err);
     }
-    dish.save()
-    .then((dish)=> {
-      Dishes.findById(dish._id)
-        .populate('comments.author')
-        .then((dish)=>{
-          res.statusCode=200;
-          res.setHeader('Content-Type','application/json');
-          res.json(dish);
-        })
-    }, (err) => next(err));
-   }
+  }
    else if(dish == null){
      err = new Error('Dish '+ req.params.dishId + ' not found');
      err.status = 404;
@@ -225,17 +232,26 @@ dishRouter.route('/:dishId/comments/:commentId')
   Dishes.findById(req.params.dishId)
   .then((dish)=>{
     if(dish != null && dish.comments.id(req.params.commentId)!=null) {
-      dish.comments.id(req.params.commentId).remove();
-      dish.save()
-      .then((dish)=> {
-        Dishes.findById(dish._id)
-            .populate('comments.author')
-            .then((dish)=>{
-              res.statusCode=200;
-              res.setHeader('Content-Type','application/json');
-              res.json(dish);
-            })
-      }, (err) => next(err));
+      //console.log(dish.comments.id(req.params.commentId).author);
+      if((req.user._id).equals(dish.comments.id(req.params.commentId).author)){
+        dish.comments.id(req.params.commentId).remove();
+        dish.save()
+        .then((dish)=> {
+          Dishes.findById(dish._id)
+              .populate('comments.author')
+              .then((dish)=>{
+                res.statusCode=200;
+                res.setHeader('Content-Type','application/json');
+                res.json(dish);
+              })
+        }, (err) => next(err));
+     }
+     else
+     {
+      var err = new Error('You are not authorized to delete this comment!');
+      err.status = 403;
+      return next(err);
+     }
     }
     else if(dish == null){
       err = new Error('Dish '+ req.params.dishId + ' not found');
@@ -250,6 +266,8 @@ dishRouter.route('/:dishId/comments/:commentId')
   },(err)=> next(err))
       .catch((err) => next(err));
   });
+
+  module.exports = dishRouter;
 /*
 //for all the requests - GET,PUT,POST,DELETE
 //1st app.all will be executed and later rest will be executed due to next() 
@@ -301,4 +319,4 @@ dishRouter.route('/:dishId')
       res.end('Deleting dish: ' + req.params.dishId);
   });
 */
-  module.exports = dishRouter;
+  
