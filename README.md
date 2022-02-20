@@ -15,8 +15,8 @@ To install all modules listed as dependencies in package. json type `npm install
 # Run
 - Navigate to the required folder on the command prompt. This project's main folder is `conFusionServer` 
 - To run the node application type `npm start` at the prompt.
-<br/>
-<br/>
+
+
 ##### _Follow further instructions given in the `README.md` files of different folders._
 
 
