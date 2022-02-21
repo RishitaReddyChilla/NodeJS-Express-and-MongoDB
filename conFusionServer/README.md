@@ -16,16 +16,16 @@
    - Perform `POST` on https://localhost:3443/dishes by giving the json data from `db.json` in the body.
    - Send the `GET` request and copy the `dishID`.
    - Send the  `GET` request on https://localhost:3443/dishes/dishID to check the response.<br/><br/>
- - <u>__Authentication - Passport JWT__</u>
+- <u>__Authentication - Passport JWT__</u>
   <br/>
-     - <u>__To Signup__ </u><br/>
+  - <u>__To Signup__ </u><br/>
   Send `POST` request on https://localhost:3443/users/signup and under the body select the raw json format and include <br/> {<br/>"username":"Anyusername",<br/>"password":"Anypassword"<br/>} <br/> to register
   <br/><br/>
-     - <u>__To Login__</u> <br/> 
+  - <u>__To Login__</u> <br/> 
      Send `POST` request on https://localhost:3443/users/login and under the body select the raw json format and include <br/> {<br/>"username":"username_used_to_signup",<br/>"password":"password_used_to_signup"<br/>} <br/> to login inorder to send `put`,`post` and `delete` requests.
-     - Copy the `token` displayed in response
-     - To perform any operation (`put`,`post` and `delete`) , under the `headers` add a row with `key` as `Authorization` and `value` as `token` which was copied earlier and include the json data under body while sending `post` and `put` requests.<br/><br/>
-    -  <u>__Setting a user as admin__</u><br/>
+  - Copy the `token` displayed in response
+  - To perform any operation (`put`,`post` and `delete`) , under the `headers` add a row with `key` as `Authorization` and `value` as `token` which was copied earlier and include the json data under body while sending `post` and `put` requests.<br/><br/>
+  - <u>__Setting a user as admin__</u><br/>
      Users who are not admins cannot perform certain operations.<br/>
      a. Register (set the username as 'admin') and login (as shown above).<br/>
      b. Open command prompt and type the following commands.<br/>
