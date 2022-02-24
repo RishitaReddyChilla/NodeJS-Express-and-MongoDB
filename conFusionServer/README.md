@@ -15,10 +15,10 @@
   - Navigate to settings>Basic and note the **APP ID** and **App secret**. Scroll down and click on **Add platform**. Select **Website** from the Options displayed. Now, enter the URL https://localhost:3443 in the text box displayed for **site URL** and save the changes.
   - Navigate to settings>Advanced and **enable** 'Native or desktop App?' and save the changes.
   - Navigate to settings>Basic and enter  https://localhost:3443 under **App domains** and save the changes.
-  - >  Open config.js file and modify <br/>
+  - Open config.js file and modify <br/>
     `clientId: 'Your App ID code'` and <br/>
     `clientSecret: 'Your App secret code'`
-  - >  Navigate to public>index.html file and modify <br/>
+  -  Navigate to public>index.html file and modify <br/>
     `appId: 'Your App ID code'`
   <br/><br/>
 5. __Using Postman__
