@@ -11,6 +11,7 @@ const favoriteRouter = express.Router();
 favoriteRouter.use(bodyParser.json());
 
 // '/favorites' endpoint
+
 favoriteRouter.route('/')
 .options(cors.cors,(req,res)=>{
     res.sendStatus(200);
@@ -107,22 +108,22 @@ favoriteRouter.route('/:dishId')
 
 .get(cors.cors,authenticate.verifyUser,(req,res,next) =>{
   Favorite.findOne({ user: req.user._id })
-  .then((favorite)=>{
-    if(!favorite){
-      res.statusCode = 404;
+  .then((favorites)=>{
+    if(!favorites){
+      res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      return res.json('No Favorites added');
+      return res.json({"exists": false, "favorites": favorites});
     }
     else
     {
-      if(favorite.dishes.indexOf(req.params.dishId) < 0)
+      if(favorites.dishes.indexOf(req.params.dishId) < 0)
       {
-        err = new Error('dishID '+ req.params.dishId + ' not found in favorites');
-        err.status = 404;
-        return next(err);//app.js will handle error
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.json({"exists": false, "favorites": favorites});//app.js will handle error
       }
       else{ //dish exists in favorites
-        Favorite.findById(favorite._id)
+       /* Favorite.findById(favorite._id)
         .then((favorite) => {
          Dishes.findById(req.params.dishId)
         .then((dish)=>{
@@ -132,7 +133,10 @@ favoriteRouter.route('/:dishId')
         },(err)=> next(err))
         .catch((err) => next(err));
       },(err)=> next(err))
-      .catch((err) => next(err));
+      .catch((err) => next(err));*/
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      return res.json({"exists": true, "favorites": favorites});
     }
   }
 },(err)=> next(err))

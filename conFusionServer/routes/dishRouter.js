@@ -14,7 +14,7 @@ dishRouter.route('/')
 })
 // if modified res or req object above - that modified object is used below
 .get(cors.cors,(req,res,next) =>{
-    Dishes.find({})
+    Dishes.find(req.query)
     .populate('comments.author')
     .then((dishes)=>{
       res.statusCode=200;
