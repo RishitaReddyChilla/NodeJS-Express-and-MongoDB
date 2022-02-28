@@ -56,7 +56,7 @@
      Users who are not admins cannot perform certain operations.<br/>
      a. Register (set the username as 'admin') and login (as shown above).<br/>
      b. Open command prompt and type the following commands.<br/>
-     > I.  `mongo`<br/>
+     I.  `mongo`<br/>
      II. `use conFusion`<br/>
      III. `db.users.update("username":"admin"},{$set: {"admin":true}})`<br/>
      IV. To verify that admin field is set to true for 'admin' user. Type `db.users.find().pretty()`. and check the admin field.<br/><br/>
